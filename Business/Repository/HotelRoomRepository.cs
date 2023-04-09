@@ -103,10 +103,21 @@ namespace Business.Repository
         {
             try
             {
-                var hotelRoom = _mapper.Map<HotelRoom, HotelRoomDto>(
-                    await _db.HotelRooms.Where(x => x.Name.ToLower() == name.ToLower()).FirstOrDefaultAsync());
+                if (roomId == 0)
+                {
+                    var hotelRoom = _mapper.Map<HotelRoom, HotelRoomDto>(
+                        await _db.HotelRooms.Where(x => x.Name.ToLower() == name.ToLower()).FirstOrDefaultAsync());
 
-                return hotelRoom;
+                    return hotelRoom;
+                }
+                else
+                {
+                    var hotelRoom = _mapper.Map<HotelRoom, HotelRoomDto>(
+                        await _db.HotelRooms.FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower()
+                                                                      && x.Id != roomId));
+
+                    return hotelRoom;
+                }
             }
             catch (Exception ex)
             {
