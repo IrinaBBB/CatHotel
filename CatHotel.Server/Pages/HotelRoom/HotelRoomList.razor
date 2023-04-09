@@ -1,0 +1,64 @@
+﻿@page "/hotel-room" 
+
+@inject IHotelRoomRepository _hotelRoomRepository
+
+<div class="d-flex align-items-center justify-content-between">
+    <h1 class="h3">Hotel Rooms</h1>
+    <a href="/hotel-room/create" class="d-flex align-items-center text-decoration-none">
+        <span class="oi oi-plus me-2" aria-hidden="true"></span><span>Create new hotel room</span>
+    </a>
+</div>
+
+<table class="table table-hover">
+    <thead>
+    <tr class="table-primary">
+        <th scope="col">Name</th>
+        <th scope="col">Occupancy</th>
+        <th scope="col">Rate</th>
+        <th scope="col">SqM</th>
+        <th>&nbsp;</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (HotelRooms.Any())
+    {
+        @foreach (var room in HotelRooms)
+        {
+            <tr>
+                <th scope="row">@room.Name</th>
+                <td>@room.Occupancy</td>
+                <td>@room.RegularRate.ToString("c")</td>
+                <td>@room.SqM  m<sup>2</sup></td>
+                <td>
+                    <button type="button" class="btn btn-primary">
+                        <span class="oi oi-info" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-warning">
+                        <span class="oi oi-pencil" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-danger">
+                        <span class="oi oi-trash" aria-hidden="true"></span>
+                    </button>
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="5">No records found</td>
+        </tr>
+    }
+
+    </tbody>
+</table>
+
+@code {
+    private IEnumerable<HotelRoomDto> HotelRooms { get; set; } = new List<HotelRoomDto>();
+
+    protected override void OnInitialized()
+    {
+        HotelRooms = _hotelRoomRepository.GetAllHotelRooms();
+    }
+
+}

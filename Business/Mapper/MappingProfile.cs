@@ -6,9 +6,9 @@ namespace Business.Mapper
 {
     public class MappingProfile : Profile
     {
-        protected MappingProfile()
+        public MappingProfile()
         {
-            CreateMap<HotelRoom, HotelRoomDto>();
+            CreateMap<HotelRoom, HotelRoomDto>().ReverseMap();
         }
     }
 }

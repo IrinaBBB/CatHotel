@@ -1,0 +1,72 @@
+﻿@page "/hotel-room/create"
+@inject IHotelRoomRepository _hotelRoomRepository
+@inject NavigationManager _navigationManager
+
+
+<div class="bs-component">
+    <div class="card border-dark mb-3">
+        <div class="card-header">@Title</div>
+        <div class="card-body">
+            <EditForm Model="HotelRoomModel" style="margin-top: -1em;" OnValidSubmit="HandleHotelRoomUpsert">
+                <DataAnnotationsValidator/>
+                <div class="form-group">
+                    <label class="col-form-label" for="inputName">Name</label>
+                    <InputText class="form-control" id="inputName" placeholder="Name" @bind-Value="HotelRoomModel.Name"/>
+                    <ValidationMessage For="() => HotelRoomModel.Name"/>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label" for="inputOccupancy">Occupancy</label>
+                    <InputNumber class="form-control" id="inputOccupancy" placeholder="Occupancy" @bind-Value="HotelRoomModel.Occupancy"/>
+                    <ValidationMessage For="() => HotelRoomModel.Occupancy"/>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label" for="inputRate">Rate</label>
+                    <InputNumber class="form-control" id="inputRate" placeholder="Rate" @bind-Value="HotelRoomModel.RegularRate" />
+                    <ValidationMessage For="() => HotelRoomModel.RegularRate" />
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label" for="inputSqM">Sq M</label>
+                    <InputText class="form-control" id="inputSqM" placeholder="Sq M" @bind-Value="HotelRoomModel.SqM"/>
+                    <ValidationMessage For="() => HotelRoomModel.SqM"/>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label" for="inputDetails">Details</label>
+                    <InputTextArea class="form-control" id="inputDetails" placeholder="Details" @bind-Value="HotelRoomModel.Details"></InputTextArea>
+                    <ValidationMessage For="() => HotelRoomModel.Details"/>
+                </div>
+                <div class="d-flex mt-3 justify-content-end">
+                    <a href="/hotel-room" class="btn btn-lg btn-secondary d-flex align-items-center px-5 me-4">
+                        <span class="oi oi-caret-left me-2" aria-hidden="true"></span>
+                        <span>Cancel</span>
+                    </a>
+                    <button class="btn btn-lg btn-primary d-flex align-items-center px-5">
+                        <span class="oi oi-circle-check me-2" aria-hidden="true"></span>
+                        <span>Save</span>
+                    </button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    private HotelRoomDto HotelRoomModel { get; set; } = new HotelRoomDto();
+    private string Title { get; set; } = "Create new hotel room";
+
+    private async Task HandleHotelRoomUpsert()
+    {
+        var roomDetailsByName = await _hotelRoomRepository.IsRoomUniqueAsync(HotelRoomModel.Name);
+        //Console.WriteLine("------------------------------------------");
+        //Console.WriteLine(roomDetailsByName);
+        //Console.WriteLine("------------------------------------------");
+        if (roomDetailsByName != null)
+        {
+            // there is duplicate room, show error
+            return;
+        }
+        var createResult = await _hotelRoomRepository.CreateHotelRoomAsync(HotelRoomModel);
+        _navigationManager.NavigateTo("hotel-room");
+    }
+
+}
