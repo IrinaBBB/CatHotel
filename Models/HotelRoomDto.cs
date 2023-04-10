@@ -21,5 +21,6 @@ namespace Models
 
         [Range(1, int.MaxValue, ErrorMessage = "SqM should be greater than zero")]
         public string SqM { get; set; }
+        //public virtual ICollection<HotelRoomImageDTO> HotelRoomImages { get; set; }
     }
 }
