@@ -1,11 +1,14 @@
 ﻿@page "/hotel-room/create"
 @page "/hotel-room/edit/{Id:int}"
+
 @using CatHotel.Server.Helpers
 @using Microsoft.Extensions.Logging
+
 @inject IHotelRoomRepository _hotelRoomRepository
 @inject NavigationManager _navigationManager
 @inject IJSRuntime _jsRuntime
 @inject ILogger _logger
+@inject IFileUpload _fileUpload
 
 
 <div class="bs-component">
@@ -38,6 +41,9 @@
                     <label class="col-form-label" for="inputDetails">Details</label>
                     <InputTextArea class="form-control" id="inputDetails" placeholder="Details" @bind-Value="HotelRoomModel.Details"></InputTextArea>
                     <ValidationMessage For="() => HotelRoomModel.Details" />
+                </div>
+                <div class="form-group mt-3">
+                    <InputFile OnChange="HandleImageUpload" multipe></InputFile>
                 </div>
                 <div class="d-flex mt-3 justify-content-end">
                     <a href="/hotel-room" class="btn btn-secondary d-flex align-items-center px-5 me-2">
@@ -105,7 +111,12 @@
         {
             _logger.LogError(ex.Message);
         }
-        
+
         _navigationManager.NavigateTo("hotel-room");
+    }
+
+    private async Task HandleImageUpload(InputFileChangeEventArgs e)
+    {
+
     }
 }
