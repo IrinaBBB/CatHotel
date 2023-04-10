@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DataAccess.Data
@@ -18,6 +19,6 @@ namespace DataAccess.Data
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
         public string UpdatedBy { get; set; }
         public DateTime UpdatedDate { get; set; }
-
+        public virtual ICollection<HotelRoomImage> HotelRoomImages { get; set; }
     }
 }
