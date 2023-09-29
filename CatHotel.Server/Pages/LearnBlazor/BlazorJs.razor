@@ -1,8 +1,8 @@
 ﻿@page "/blazorjs"
 @inject IJSRuntime _jsRuntime
 
-<h3>BlazorJS</h3>
 
+<h3>BlazorJS</h3>
 <div class="row">
     <button class="btn btn-secondary" @onclick="TestConfirmBox">Test Confirm Button</button>
 </div>
@@ -25,9 +25,11 @@
     }
 </div>
 
+
 @code {
     private string _confirmMessage = "Are you sure you want to click?";
     private bool ConfirmResult { get; set; }
+
     private async Task TestConfirmBox()
     {
         ConfirmResult = await _jsRuntime.InvokeAsync<bool>("confirm", _confirmMessage);
@@ -47,8 +49,10 @@
     {
         await _jsRuntime.InvokeVoidAsync("ShowSwal", "success", "Task completed successfully!");
     }
+
     private async Task TestFailureSwal()
     {
         await _jsRuntime.InvokeVoidAsync("ShowSwal", "error", "Task failed!");
     }
+
 }

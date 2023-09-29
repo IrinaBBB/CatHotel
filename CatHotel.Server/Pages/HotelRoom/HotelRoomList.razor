@@ -1,4 +1,6 @@
 ﻿@page "/hotel-room" 
+@attribute [Authorize]
+
 
 @inject IHotelRoomRepository _hotelRoomRepository
 
@@ -29,7 +31,7 @@
                 <th scope="row">@room.Name</th>
                 <td>@room.Occupancy</td>
                 <td>@room.RegularRate.ToString("c")</td>
-                <td>@room.SqM  m<sup>2</sup></td>
+                <td>@room.SqM m<sup>2</sup></td>
                 <td>
                     <button type="button" class="btn btn-primary">
                         <span class="oi oi-info" aria-hidden="true"></span>
@@ -54,12 +56,22 @@
     </tbody>
 </table>
 
+<span class="bg-info p-3">@AuthenticatedUser</span>
+
 @code {
     private IEnumerable<HotelRoomDto> HotelRooms { get; set; } = new List<HotelRoomDto>();
 
-    protected override void OnInitialized()
+    [CascadingParameter]
+    Task<AuthenticationState> AuthenticationStateTask { get; set; }
+
+    public string AuthenticatedUser { get; set; }
+
+
+
+    protected override async Task OnInitializedAsync()
     {
         HotelRooms = _hotelRoomRepository.GetAllHotelRooms();
+        var authenticationState = await AuthenticationStateTask;
+        AuthenticatedUser = authenticationState.User.Identity!.Name;
     }
-
 }

@@ -1,0 +1,17 @@
+﻿@page
+@model CatHotel.Server.Pages.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+<h1>Login</h1>
+<form method="post">
+    <div class="mb-3">
+        <label asp-for="Email">Email address</label>
+        <input type="email" asp-for="Email">
+    </div>
+    <div class="mb-3">
+        <label asp-for="Password">Password</label>
+        <input asp-for="Password">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
