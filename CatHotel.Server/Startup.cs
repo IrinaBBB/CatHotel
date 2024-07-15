@@ -1,6 +1,8 @@
 using System;
 using Business.Repository;
 using Business.Repository.IRepository;
+using CatHotel.Server.Service.IService;
+using CatHotel.Server.Service;
 using DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,6 +34,10 @@ namespace CatHotel.Server
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSingleton(sp => sp.GetRequiredService<ILoggerFactory>().CreateLogger("DefaultLogger"));
             services.AddScoped<IHotelRoomRepository, HotelRoomRepository>();
+            services.AddScoped<IAmenityRepository, AmenityRepository>();
+            services.AddScoped<IHotelImagesRepository, HotelImagesRepository>();
+            services.AddScoped<IRoomOrderDetailsRepository, RoomOrderDetailsRepository>();
+            services.AddScoped<IFileUpload, FileUpload>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -16,7 +16,7 @@
         <th scope="col">Name</th>
         <th scope="col">Occupancy</th>
         <th scope="col">Rate</th>
-        <th scope="col">SqM</th>
+        <th scope="col">Sq M</th>
         <th>&nbsp;</th>
     </tr>
     </thead>
@@ -29,7 +29,7 @@
                 <th scope="row">@room.Name</th>
                 <td>@room.Occupancy</td>
                 <td>@room.RegularRate.ToString("c")</td>
-                <td>@room.SqM  m<sup>2</sup></td>
+                <td>@room.SqM</td>
                 <td>
                     <button type="button" class="btn btn-primary">
                         <span class="oi oi-info" aria-hidden="true"></span>
@@ -57,9 +57,9 @@
 @code {
     private IEnumerable<HotelRoomDto> HotelRooms { get; set; } = new List<HotelRoomDto>();
 
-    protected override void OnInitialized()
+    protected async override Task OnInitializedAsync()
     {
-        HotelRooms = _hotelRoomRepository.GetAllHotelRooms();
+        HotelRooms = await _hotelRoomRepository.GetAllHotelRooms();
     }
 
 }

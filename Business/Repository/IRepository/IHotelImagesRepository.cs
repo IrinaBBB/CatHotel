@@ -6,9 +6,10 @@ namespace Business.Repository.IRepository
 {
     public interface IHotelImagesRepository
     {
-        public Task<int> CreateHotelRoomImageAsync(HotelRoomImageDto imageDto);
-        public Task<int> DeleteHotelRoomImageByImageIdAsync(int imageId);
-        public Task<int> DeleteHotelRoomImageByRoomIdAsync(int roomId);
-        public Task<IEnumerable<HotelRoomImageDto>> GetHotelRoomImagesAsync(int roomId);
+        public Task<int> CreateHotelRoomImage(HotelRoomImageDto image);
+        public Task<int> DeleteHotelRoomImageByImageId(int imageId);
+        public Task<int> DeleteHotelRoomImageByRoomId(int roomId);
+        public Task<int> DeleteHotelImageByImageUrl(string imageUrl);
+        public Task<IEnumerable<HotelRoomImageDto>> GetHotelRoomImages(int roomId);
     }
 }

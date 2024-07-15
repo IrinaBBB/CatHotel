@@ -22,31 +22,43 @@ namespace Business.Repository
             _mapper = mapper;
         }
 
-        public async Task<int> CreateHotelRoomImageAsync(HotelRoomImageDto imageDto)
+        public async Task<int> CreateHotelRoomImage(HotelRoomImageDto imageDto)
         {
             var image = _mapper.Map<HotelRoomImageDto, HotelRoomImage>(imageDto);
             await _db.HotelRoomImages.AddAsync(image);
             return await _db.SaveChangesAsync();
         }
 
-        public async Task<int> DeleteHotelRoomImageByImageIdAsync(int imageId)
+        public async Task<int> DeleteHotelImageByImageUrl(string imageUrl)
         {
-            var roomImage = await _db.HotelRoomImages.FindAsync(imageId);
-            _db.HotelRoomImages.Remove(roomImage);
+            var allImages = await _db.HotelRoomImages.FirstOrDefaultAsync
+                                (x => x.RoomImageUrl.ToLower() == imageUrl.ToLower());
+            if (allImages == null)
+            {
+                return 0;
+            }
+            _db.HotelRoomImages.Remove(allImages);
             return await _db.SaveChangesAsync();
         }
 
-        public async Task<int> DeleteHotelRoomImageByRoomIdAsync(int roomId)
+        public async Task<int> DeleteHotelRoomImageByImageId(int imageId)
         {
-            var imageList = await _db.HotelRoomImages.Where(i => i.RoomId == roomId).ToListAsync();
+            var image = await _db.HotelRoomImages.FindAsync(imageId);
+            _db.HotelRoomImages.Remove(image);
+            return await _db.SaveChangesAsync();
+        }
+
+        public async Task<int> DeleteHotelRoomImageByRoomId(int roomId)
+        {
+            var imageList = await _db.HotelRoomImages.Where(x => x.RoomId == roomId).ToListAsync();
             _db.HotelRoomImages.RemoveRange(imageList);
             return await _db.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<HotelRoomImageDto>> GetHotelRoomImagesAsync(int roomId)
+        public async Task<IEnumerable<HotelRoomImageDto>> GetHotelRoomImages(int roomId)
         {
-            var imageList = await _db.HotelRoomImages.Where(i => i.RoomId == roomId).ToListAsync();
-            return _mapper.Map<IEnumerable<HotelRoomImage>, IEnumerable<HotelRoomImageDto>>(imageList);
+            return _mapper.Map<IEnumerable<HotelRoomImage>, IEnumerable<HotelRoomImageDto>>(
+            await _db.HotelRoomImages.Where(x => x.RoomId == roomId).ToListAsync());
         }
     }
 }

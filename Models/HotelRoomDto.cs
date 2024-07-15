@@ -1,26 +1,26 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Models
 {
     public class HotelRoomDto
     {
         public int Id { get; set; }
-
         [Required(ErrorMessage = "Please enter room name")]
         public string Name { get; set; }
-
-        [Required(ErrorMessage = "Please enter occupancy")]
-        [Range(1, int.MaxValue, ErrorMessage = "Occupancy should be greater than zero")]
+        [Required(ErrorMessage = "Please enter Occupancy")]
         public int Occupancy { get; set; }
-
-        [Required(ErrorMessage = "Please enter regular rate")]
-        [Range(1, int.MaxValue, ErrorMessage = "Regular rate should be greater than zero")]
+        [Range(1, 3000, ErrorMessage = "Regular rate must be between 1 and 3000")]
         public double RegularRate { get; set; }
-
         public string Details { get; set; }
-
-        [Range(1, int.MaxValue, ErrorMessage = "SqM should be greater than zero")]
         public string SqM { get; set; }
-        //public virtual ICollection<HotelRoomImageDTO> HotelRoomImages { get; set; }
+
+        public double TotalDays { get; set; }
+        public double TotalAmount { get; set; }
+
+        public virtual ICollection<HotelRoomImageDto> HotelRoomImages { get; set; }
+
+        public List<string> ImageUrls { get; set; }
+        public bool IsBooked { get; set; }
     }
 }

@@ -56,6 +56,7 @@ namespace CatHotel.Server.Service
 
                 if (!File.Exists(path)) return false;
 
+                { }
                 File.Delete(path);
                 return true;
             }
