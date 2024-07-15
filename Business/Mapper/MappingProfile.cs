@@ -8,8 +8,14 @@ namespace Business.Mapper
     {
         public MappingProfile()
         {
-            CreateMap<HotelRoom, HotelRoomDto>().ReverseMap();
+            CreateMap<HotelRoomDto, HotelRoom>();
+            CreateMap<HotelRoom, HotelRoomDto>();
+            CreateMap<HotelAmenity, HotelAmenityDto>().ReverseMap();
+
             CreateMap<HotelRoomImage, HotelRoomImageDto>().ReverseMap();
+
+            CreateMap<RoomOrderDetails, RoomOrderDetailsDto>().ForMember(x => x.HotelRoomDto, opt => opt.MapFrom(c => c.HotelRoom));
+            CreateMap<RoomOrderDetailsDto, RoomOrderDetails>();
         }
     }
 }

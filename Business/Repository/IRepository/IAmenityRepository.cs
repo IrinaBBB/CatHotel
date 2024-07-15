@@ -12,5 +12,6 @@ namespace Business.Repository.IRepository
         public Task<IEnumerable<HotelAmenityDto>> GetAllHotelAmenity();
         public Task<HotelAmenityDto> GetHotelAmenity(int amenityId);
         public Task<HotelAmenityDto> IsSameNameAmenityAlreadyExists(string name);
+        public Task<int> GetAmenitiesCount();
     }
 }

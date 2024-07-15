@@ -1,85 +1,97 @@
 ﻿@page "/"
-@using Blazored.TextEditor
 
-<h1>Hello, world!</h1>
+@inject IHotelRoomRepository HotelRoomRepository
+@inject IAmenityRepository AmenitiesRepository
 
-Welcome to your new app.
-<button type="button" class="btn btn-primary">Primary</button>
-<p class="bs-component">
-    <button type="button" class="btn btn-primary">Primary</button>
-    <button type="button" class="btn btn-secondary">Secondary</button>
-    <button type="button" class="btn btn-success">Success</button>
-    <button type="button" class="btn btn-info">Info</button>
-    <button type="button" class="btn btn-warning">Warning</button>
-    <button type="button" class="btn btn-danger">Danger</button>
-    <button type="button" class="btn btn-light">Light</button>
-    <button type="button" class="btn btn-dark">Dark</button>
-    <button type="button" class="btn btn-link">Link</button>
-    <button class="source-button btn btn-primary btn-xs" type="button" tabindex="0"><i class="bi bi-code"></i></button></p>
+<style>
+    .card {
+        margin: 20px 0;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        border-radius: 15px;
+        transition: transform 0.3s, box-shadow 0.3s;
+        background: #0E3A8A; 
+        color: #fff;
+    }
 
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
 
-<BlazoredTextEditor @ref="@QuillHtml">
-    <ToolbarContent>
-        <select class="ql-header">
-            <option selected=""></option>
-            <option value="1"></option>
-            <option value="2"></option>
-            <option value="3"></option>
-            <option value="4"></option>
-            <option value="5"></option>
-        </select>
-        <span class="ql-formats">
-            <button class="ql-bold"></button>
-            <button class="ql-italic"></button>
-            <button class="ql-underline"></button>
-            <button class="ql-strike"></button>
-        </span>
-        <span class="ql-formats">
-            <select class="ql-color"></select>
-            <select class="ql-background"></select>
-        </span>
-        <span class="ql-formats">
-            <button class="ql-list" value="ordered"></button>
-            <button class="ql-list" value="bullet"></button>
-        </span>
-        <span class="ql-formats">
-            <button class="ql-link"></button>
-        </span>
-    </ToolbarContent>
-    <EditorContent>
-       
-    </EditorContent>
-</BlazoredTextEditor>
-<br />
-<button class="btn btn-primary" 
-        @onclick="GetHTML">Get HTML</button>
-<button class="btn btn-primary"
-        @onclick="SetHTML">Set HTML</button>
-<br />
-<div>
-    <br />
-    @((MarkupString)QuillHTMLContent)
-    @QuillHTMLContent
+    .card-body {
+        padding: 20px;
+    }
+
+    .card-title {
+        font-family: 'Arial Black', sans-serif;
+        font-size: 1.8em;
+        color: #fff;
+        margin-bottom: 20px;
+    }
+
+    .card-text {
+        font-family: 'Arial', sans-serif;
+        font-size: 1.2em;
+        color: #fff;
+        margin-bottom: 20px;
+    }
+
+    .btn-primary {
+        background-color: #ff8c00;
+        border-color: #ff8c00;
+        transition: background-color 0.3s, border-color 0.3s;
+        border-radius: 50px;
+        padding: 10px 20px;
+        font-size: 1.1em;
+        color: #fff;
+    }
+
+        .btn-primary:hover {
+            background-color: #e07b00;
+            border-color: #d06b00;
+        }
+
+    .card-icon {
+        font-size: 2.5em;
+        color: #ff8c00;
+        margin-right: 10px;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Hotel Rooms</h5>
+                <p class="card-text">Hotel Rooms Count: @HotelRoomsCount</p>
+                <NavLink class="btn btn-primary" href="hotel-room">
+                    Go To Hotels
+                </NavLink>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Amenities</h5>
+                <p class="card-text">Amenities Count: @AmenitiesCount</p>
+                <NavLink class="btn btn-primary" href="hotel-amenity">
+                    Go To Amenities
+                </NavLink>
+            </div>
+        </div>
+    </div>
 </div>
-<br />
+
 
 @code {
+    public int HotelRoomsCount { get; set; }
+    public int AmenitiesCount { get; set; }
 
-    BlazoredTextEditor QuillHtml;
-    string QuillHTMLContent;
-
-    public async void GetHTML()
+    protected override async Task OnInitializedAsync()
     {
-        QuillHTMLContent = await this.QuillHtml.GetHTML();
-        StateHasChanged();
+        HotelRoomsCount = await HotelRoomRepository.GetHotelRoomCount();
+        AmenitiesCount = await AmenitiesRepository.GetAmenitiesCount();
     }
 
-    public async void SetHTML()
-    {
-        string QuillContent = "";
-
-
-        await this.QuillHtml.LoadHTMLContent(QuillContent);
-        StateHasChanged();
-    }
+   
 }

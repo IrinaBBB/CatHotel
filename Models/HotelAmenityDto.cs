@@ -10,9 +10,6 @@ namespace Models
         [Required(ErrorMessage = "Please enter amenity name")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Please enter amenity timming")]
-        public string Timming { get; set; }
-
         [Required(ErrorMessage = "Please enter amenity description")]
         public string Description { get; set; }
 

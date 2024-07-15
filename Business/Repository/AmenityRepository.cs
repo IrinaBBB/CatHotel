@@ -50,6 +50,11 @@ namespace Business.Repository
             return _mapper.Map<IEnumerable<HotelAmenity>, IEnumerable<HotelAmenityDto>>(await _context.HotelAmenities.ToListAsync());
         }
 
+        public async Task<int> GetAmenitiesCount()
+        {
+            return await _context.HotelAmenities.CountAsync();
+        }
+
         public async Task<HotelAmenityDto> GetHotelAmenity(int amenityId)
         {
             var amenityData = await _context.HotelAmenities

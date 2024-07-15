@@ -13,6 +13,7 @@ namespace Business.Repository.IRepository
         public Task<IEnumerable<HotelRoomDto>> GetAllHotelRooms(string checkInDate = null, string checkOutDate = null);
         public Task<HotelRoomDto> IsRoomUnique(string name, int roomId = 0);
         public Task<bool> IsRoomBooked(int RoomId, string checkInDate, string checkOutDate);
+        public Task<int> GetHotelRoomCount();
     }
 }
 

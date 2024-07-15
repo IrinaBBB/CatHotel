@@ -39,11 +39,6 @@
                     <InputText class="form-control" id="squareM" placeholder="Sq M" @bind-Value="HotelRoomModel.SqM" />
                     <ValidationMessage For="() => HotelRoomModel.SqM" />
                 </div>
-               @*  <div class="form-group">
-                    <label class="col-form-label" for="inputDetails">Details</label>
-                    <InputTextArea class="form-control" id="inputDetails" placeholder="Details" @bind-Value="HotelRoomModel.Details"></InputTextArea>
-                    <ValidationMessage For="() => HotelRoomModel.Details" />
-                </div> *@
                 <div class="form-group mt-1" style="height:100px;">
                         <label>Details</label>
                         <BlazoredTextEditor @ref="@QuillHtml" Placeholder="Please enter room detals">

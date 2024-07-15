@@ -1,17 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32002.261
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatHotel.Server", "CatHotel.Server\CatHotel.Server.csproj", "{780E572B-69BF-4413-8B37-7046DA718FBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatHotel.Server", "CatHotel.Server\CatHotel.Server.csproj", "{780E572B-69BF-4413-8B37-7046DA718FBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Business.csproj", "{4CA68975-18EC-4E2C-ABA9-11B2B24890D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Business.csproj", "{4CA68975-18EC-4E2C-ABA9-11B2B24890D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{8996FA3F-D1CF-494C-93E8-11741C945AB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{8996FA3F-D1CF-494C-93E8-11741C945AB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{1F5734DA-924B-452B-A770-4A2E005FFD5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{1F5734DA-924B-452B-A770-4A2E005FFD5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{8A9CD21B-5B85-4852-B248-2FF9AB66CFE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{8A9CD21B-5B85-4852-B248-2FF9AB66CFE3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,0 +1,122 @@
+﻿@page "/hotel-amenity/create"
+@page "/hotel-amenity/edit/{Id:int}"
+
+@inject IAmenityRepository AmenityRepository
+@inject IJSRuntime JsRuntime
+@inject NavigationManager NavigationManager
+@inject IFileUpload FileUpload
+
+
+<div class="bs-component">
+    <div class="card border-dark mb-3">
+        <div class="card-header">@Title</div>
+        <div class="card-body">
+            <EditForm Model="@HotelAmenityModel" OnValidSubmit="HandleHotelAmenityCreate">
+                <DataAnnotationsValidator />
+                <div class="form-group">
+                    <label>Name</label>
+                    <InputText @bind-Value="HotelAmenityModel.Name" class="form-control"></InputText>
+                    <ValidationMessage For="()=>HotelAmenityModel.Name"></ValidationMessage>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <InputTextArea @bind-Value="HotelAmenityModel.Description" class="form-control"></InputTextArea>
+                    <ValidationMessage For="()=>HotelAmenityModel.Description"></ValidationMessage>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="d-block mb-1">Upload an Icon</label>
+                    <InputFile OnChange="HandleIconUpload" multiple></InputFile>
+                </div>
+                <div class="d-flex mt-3 justify-content-end">
+                    <a href="/hotel-room" class="btn btn-secondary d-flex align-items-center px-5 me-2">
+                        <span class="oi oi-caret-left me-2" aria-hidden="true"></span>
+                        <span>Cancel</span>
+                    </a>
+                    <button class="btn btn-primary d-flex align-items-center px-5">
+                        <span class="oi oi-circle-check me-2" aria-hidden="true"></span>
+                        <span>Save</span>
+                    </button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+    internal string Title { get; set; } = "Create Amenity";
+    internal HotelAmenityDto HotelAmenityModel { get; set; } = new HotelAmenityDto();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id != null)
+        {
+            //updating
+            Title = "Update Amenity";
+            HotelAmenityModel = await AmenityRepository.GetHotelAmenity(Id.Value);
+        } else
+        {
+            //create
+            HotelAmenityModel = new HotelAmenityDto();
+        }
+    }
+
+    internal async Task HandleHotelAmenityCreate()
+    {
+        try
+        {
+            if (HotelAmenityModel.Id != 0 && Title != "Create Amenity")
+            {
+                var updateRoomResult = await AmenityRepository.UpdateHotelAmenity(Id.Value, HotelAmenityModel);
+                await JsRuntime.ToastrSuccess("Hotel room amenity updated successfully.");
+            } else
+            {
+                var updateRoomResult = await AmenityRepository.CreateHotelAmenity(HotelAmenityModel);
+                await JsRuntime.ToastrSuccess("Hotel room amenity created successfully.");
+            }
+        } catch (Exception ex)
+        {
+            await JsRuntime.ToastrSuccess(ex.Message);
+        }
+        NavigationManager.NavigateTo("hotel-amenity");
+
+    }
+
+    private async Task HandleIconUpload(InputFileChangeEventArgs e)
+    {
+        if (e.FileCount > 1)
+        {
+            await JsRuntime.ToastrError("You cannot download more than one icon");
+            return;
+        }
+
+        if (e.FileCount == 1)
+        {          
+            var file = e.GetMultipleFiles().First();
+            var fileInfo = new System.IO.FileInfo(file.Name);
+            if (fileInfo.Extension.ToLower() == ".jpg" ||
+                fileInfo.Extension.ToLower() == ".png" ||
+                fileInfo.Extension.ToLower() == ".jpeg" ||
+                fileInfo.Extension.ToLower() == ".webp" || fileInfo.Extension.ToLower() == ".svg")
+            {
+                if (HotelAmenityModel.IconStyle is not null)
+                {
+                    FileUpload.DeleteFile(HotelAmenityModel.IconStyle.Replace($"RoomImages/", ""));
+                }
+                var uploadedImagePath = await FileUpload.UploadFile(file);
+                HotelAmenityModel.IconStyle = uploadedImagePath;
+            }
+            else
+            {
+                await JsRuntime.ToastrError("Please select .jpg/.jpeg/.png file only");
+                return;
+            }
+        }
+    }
+
+   
+}

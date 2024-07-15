@@ -169,5 +169,10 @@ namespace Business.Repository
                 return null;
             }
         }
+
+        public async Task<int> GetHotelRoomCount()
+        {
+            return await _db.HotelRooms.CountAsync();
+        }
     }
 }
