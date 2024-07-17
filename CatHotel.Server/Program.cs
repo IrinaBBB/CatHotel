@@ -30,6 +30,7 @@ builder.Services.AddScoped<IHotelRoomRepository, HotelRoomRepository>();
 builder.Services.AddScoped<IAmenityRepository, AmenityRepository>();
 builder.Services.AddScoped<IHotelImagesRepository, HotelImagesRepository>();
 builder.Services.AddScoped<IRoomOrderDetailsRepository, RoomOrderDetailsRepository>();
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.AddScoped<IFileUpload, FileUpload>();
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders()
@@ -37,6 +38,13 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 
 var app = builder.Build();
 
+
+// Call the database initializer
+using (var scope = app.Services.CreateScope())
+{
+    var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+    dbInitializer.Initalize();
+}
 // Middleware
 if (app.Environment.IsDevelopment())
 {
