@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\Da
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatHotel.Api", "CatHotel.Api\CatHotel.Api.csproj", "{EE27AFDB-A7A4-49AE-BF30-31D072BFCC24}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatHotel.Client", "CatHotel.Client\CatHotel.Client.csproj", "{78AAE0F1-7EDE-4E6D-BE64-914C542666EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{EE27AFDB-A7A4-49AE-BF30-31D072BFCC24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE27AFDB-A7A4-49AE-BF30-31D072BFCC24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE27AFDB-A7A4-49AE-BF30-31D072BFCC24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78AAE0F1-7EDE-4E6D-BE64-914C542666EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78AAE0F1-7EDE-4E6D-BE64-914C542666EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78AAE0F1-7EDE-4E6D-BE64-914C542666EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78AAE0F1-7EDE-4E6D-BE64-914C542666EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
