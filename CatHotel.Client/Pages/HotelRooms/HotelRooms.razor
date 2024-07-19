@@ -1,0 +1,36 @@
+﻿@page "/hotel/rooms"
+@using CatHotel.Client.Helper
+@using CatHotel.Client.Model.ViewModel
+@using Models
+@inject ILocalStorageService localStorage
+@inject IJSRuntime jsRuntime
+
+<h3>HotelRooms</h3>
+<h1>@HomeModel.EndDate</h1>
+
+@code {
+    private HomeViewModel HomeModel { get; set; } = new HomeViewModel();
+    public IEnumerable<HotelRoomDto> Rooms { get; set; } = new List<HotelRoomDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            if (await localStorage.GetItemAsync<HomeViewModel>("InitialRoomBookingInfo") != null)
+            {
+                HomeModel = await localStorage.GetItemAsync<HomeViewModel>("InitialRoomBookingInfo");
+            } else
+            {
+                HomeModel.NumberOfNights = 1;
+            }
+            await LoadRooms();
+        } catch (Exception e)
+        {
+            await jsRuntime.ToastrError(e.Message);
+        }
+    }
+
+    private async Task LoadRooms()
+    { }
+}
+

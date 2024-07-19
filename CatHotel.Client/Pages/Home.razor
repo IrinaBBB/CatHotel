@@ -5,6 +5,8 @@
 @inject ILocalStorageService localStorage
 @inject IJSRuntime jsRuntime
 
+@inject NavigationManager navigationManager
+
 <PageTitle>Cat Hotel</PageTitle>
 
 <div class="hero">
@@ -138,8 +140,8 @@
         try
         {
             HomeModel.EndDate = HomeModel.StartDate.AddDays(HomeModel.NumberOfNights);
-
             await localStorage.SetItemAsync("InitialRoomBookingInfo", HomeModel);
+            navigationManager.NavigateTo("hotel/rooms", true);
         } catch (Exception e)
         {
             await jsRuntime.ToastrError(e.Message);
