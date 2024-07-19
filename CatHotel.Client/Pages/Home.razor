@@ -1,4 +1,9 @@
 ﻿@page "/"
+@using CatHotel.Client.Helper
+@using CatHotel.Client.Model.ViewModel
+
+@inject ILocalStorageService localStorage
+@inject IJSRuntime jsRuntime
 
 <PageTitle>Cat Hotel</PageTitle>
 
@@ -13,31 +18,36 @@
         </div>
     </div>
 </div>
+
 <div class="section-search">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-5">
-                <div class="input-group">
-                    <input type="text" class="form-control w-100" placeholder="Check In Date" aria-label="Check In Date">
+        <EditForm Model="@HomeModel" OnValidSubmit="SaveInitialData">
+            <div class="row">
+                <div class="col-5">
+                    <div class="input-group">
+                        <InputDate @bind-Value="HomeModel.StartDate" class="form-control"
+                                   InputAttributes="@(new Dictionary<string, object> { { "min", DateTime.Now.ToString("yyyy-MM-dd") } })" />
+                    </div>
+                </div>
+                <div class="col-5">
+                    <div class="input-group col-md-4">
+                        <select class="form-control" @bind="HomeModel.NumberOfNights">
+                            <option value="" selected>Number of Nights</option>
+                            @for (var i = 1; i <= 10; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <button type="submit" class="btn btn-primary w-100" style="border-radius: 3px">Search</button>
                 </div>
             </div>
-            <div class="col-5">
-                <div class="input-group col-md-4">
-                    <select class="form-control">
-                        <option value="">Number of Nights</option>
-                        @for (var i = 1; i <= 10; i++)
-                        {
-                            <option value="@i">@i</option>
-                        }
-                    </select>
-                </div>
-            </div>
-            <div class="col-2">
-                <button type="button" class="btn btn-primary w-100" style="border-radius: 3px">Search</button>
-            </div>
-        </div>
+        </EditForm>
     </div>
 </div>
+
 <!-- Services Section -->
 <div class="section-services py-5 bg-light">
     <div class="container">
@@ -120,3 +130,19 @@
 </footer>
 
 
+@code {
+    public HomeViewModel HomeModel { get; set; } = new HomeViewModel();
+
+    private async Task SaveInitialData()
+    {
+        try
+        {
+            HomeModel.EndDate = HomeModel.StartDate.AddDays(HomeModel.NumberOfNights);
+
+            await localStorage.SetItemAsync("InitialRoomBookingInfo", HomeModel);
+        } catch (Exception e)
+        {
+            await jsRuntime.ToastrError(e.Message);
+        }
+    }
+}
