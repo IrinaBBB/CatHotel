@@ -7,9 +7,113 @@
 @inject IJSRuntime jsRuntime
 @inject IHotelRoomService hotelRoomService
 
-<h3>HotelRooms</h3>
-<div>@Rooms.FirstOrDefault().Name</div>
+<EditForm Model="HomeModel" OnValidSubmit="SaveBookingInfo" class="bg-light">
+    <div class="pt-3 pb-2 px-5 mx-1 mx-md-0 section-search">
+        <DataAnnotationsValidator />
+        <div class="row px-3 mx-3">
+            <div class="col-6 col-md-4">
+                <div class="form-group">
+                    <label class="text-dark">Check in Date</label>
+                    <InputDate @bind-Value="HomeModel.StartDate" class="form-control" />
+                </div>
+            </div>
+            <div class="col-6 col-md-4">
+                <div class="form-group">
+                    <label class="text-dark">Check Out Date</label>
+                    <input @bind="HomeModel.EndDate" disabled="disabled" readonly="readonly" type="date" class="form-control" />
+                </div>
+            </div>
+            <div class=" col-4 col-md-2">
+                <div class="form-group">
+                    <label class="text-dark">No. of nights</label>
+                    <select class="form-control" @bind="HomeModel.NumberOfNights">
+                        <option value="Select" selected disabled="disabled">(Select No. Of Nights)</option>
+                        @for (var i = 1; i <= 10; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                </div>
+            </div>
 
+            <div class="col-8 col-md-2">
+                <div class="form-group" style="margin-top: 1.9rem !important;">
+                    <input type="submit" value="Update" class="btn btn-success btn-block form-control" />
+                </div>
+            </div>
+        </div>
+    </div>
+</EditForm>
+<div class="container mb-5">
+    <div class="row">
+        @foreach(var room in Rooms)
+        {
+            <div class="col-lg-12">
+                <div class="bs-component mt-3">
+                    <div class="card bg-light mb-3">
+                        <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12 col-lg-3 col-md-4">
+                                        <div id="@($"carousel-{room.Id}")" class="carousel slide" data-bs-ride="carousel">
+                                            <div class="carousel-indicators">
+                                                @for (int i = 0; i < room.HotelRoomImages.Count; i++)
+                                                {
+                                                    <button type="button" data-bs-target="#@($"carousel-{room.Id}")" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")" aria-current="@(i == 0 ? "true" : "false")" aria-label="Slide @(i + 1)"></button>
+                                                }
+                                            </div>
+                                            <div class="carousel-inner">
+                                                @for (int i = 0; i < room.HotelRoomImages.Count; i++)
+                                                {
+                                                    <div class="carousel-item @(i == 0 ? "active" : "")">
+                                                        <img src="@($"https://localhost:5001/{room.HotelRoomImages.ElementAt(i).RoomImageUrl}")" class="d-block w-100" alt="">
+                                                    </div>
+                                                }
+                                            </div>
+                                            <button class="carousel-control-prev" type="button" data-bs-target="#@($"carousel-{room.Id}")" data-bs-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Previous</span>
+                                            </button>
+                                            <button class="carousel-control-next" type="button" data-bs-target="#@($"carousel-{room.Id}")" data-bs-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Next</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-9 col-md-8">
+                                        <div class="row pt-3">
+                                            <div class="col-12 col-lg-8">
+                                                <p class="card-title text-primary" style="font-size:xx-large">@room.Name</p>
+                                                <p class="card-text">
+                                                    @room.Details
+                                                </p>
+                                            </div>
+                                            <div class="col-12 col-lg-4">
+                                                <div class="row pb-3 pt-2">
+                                                    <div class="col-12 col-lg-11 offset-lg-1">
+                                                        <a href="#" class="btn btn-success btn-block">Book</a>
+                                                    </div>
+                                                </div>
+                                                <div class="row ">
+                                                    <div class="col-12 pb-5">
+                                                        <span class="float-right">
+                                                            <span class="float-right">Max Occupancy : @room.Occupancy cats </span><br />
+                                                            <span class="float-right pt-1">Villa Size : @room.SqM sqft</span><br />
+                                                            <h4 class="text-primary font-weight-bold pt-4">USD <span style="border-bottom:1px solid #ff6a00">@room.RegularRate</span></h4>
+                                                            <span class="float-right">Cost for  nights</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        }
+    </div>
+</div>
 
 @code {
     private HomeViewModel HomeModel { get; set; } = new HomeViewModel();
@@ -37,6 +141,11 @@
     private async Task LoadRooms()
     {
         Rooms = await hotelRoomService.GetHotelRooms(HomeModel.StartDate.ToString("MM.dd.yyyy"), HomeModel.EndDate.ToString("MM.dd.yyyy"));
+    }
+
+    private async Task SaveBookingInfo()
+    {
+
     }
 }
 
