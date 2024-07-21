@@ -93,6 +93,7 @@ builder.Services.AddCors(o => o.AddPolicy("CatHotel", builder =>
     builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
 }));
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -101,6 +102,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors(builder => builder
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .AllowCredentials()
+    .WithOrigins("http://localhost:5258"));
 
 app.UseHttpsRedirection();
 app.UseCors("CatHotel");

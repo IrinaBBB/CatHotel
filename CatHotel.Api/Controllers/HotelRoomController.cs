@@ -26,7 +26,7 @@ namespace CatHotel.Api.Controllers
                     ErrorMessage = "All parameters need to be supplied"
                 });
             }
-            if (!DateTime.TryParseExact(checkInDate, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dtCheckInDate))
+            if (!DateTime.TryParseExact(checkInDate, "MM.dd.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dtCheckInDate))
             {
                 return BadRequest(new ErrorModel()
                 {
@@ -34,12 +34,12 @@ namespace CatHotel.Api.Controllers
                     ErrorMessage = "Invalid CheckIn date format. valid format will be MM/dd/yyyy"
                 });
             }
-            if (!DateTime.TryParseExact(checkOutDate, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dtCheckOutDate))
+            if (!DateTime.TryParseExact(checkOutDate, "MM.dd.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dtCheckOutDate))
             {
                 return BadRequest(new ErrorModel()
                 {
                     StatusCode = StatusCodes.Status400BadRequest,
-                    ErrorMessage = "Invalid CheckOut date format. valid format will be MM/dd/yyyy"
+                    ErrorMessage = "Invalid CheckOut date format. valid format will be MM.dd.yyyy"
                 });
             }
 
@@ -67,20 +67,20 @@ namespace CatHotel.Api.Controllers
                     ErrorMessage = "All parameters need to be supplied"
                 });
             }
-            if (!DateTime.TryParseExact(checkInDate, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dtCheckInDate))
+            if (!DateTime.TryParseExact(checkInDate, "MM.dd.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dtCheckInDate))
             {
                 return BadRequest(new ErrorModel()
                 {
                     StatusCode = StatusCodes.Status400BadRequest,
-                    ErrorMessage = "Invalid CheckIn date format. valid format will be MM/dd/yyyy"
+                    ErrorMessage = "Invalid CheckIn date format. valid format will be MM.dd.yyyy"
                 });
             }
-            if (!DateTime.TryParseExact(checkOutDate, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dtCheckOutDate))
+            if (!DateTime.TryParseExact(checkOutDate, "MM.dd.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dtCheckOutDate))
             {
                 return BadRequest(new ErrorModel()
                 {
                     StatusCode = StatusCodes.Status400BadRequest,
-                    ErrorMessage = "Invalid CheckOut date format. valid format will be MM/dd/yyyy"
+                    ErrorMessage = "Invalid CheckOut date format. valid format will be MM.dd.yyyy"
                 });
             }
 

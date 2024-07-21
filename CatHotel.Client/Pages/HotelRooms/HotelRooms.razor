@@ -1,12 +1,15 @@
 ﻿@page "/hotel/rooms"
 @using CatHotel.Client.Helper
 @using CatHotel.Client.Model.ViewModel
+@using CatHotel.Client.Service.IService
 @using Models
 @inject ILocalStorageService localStorage
 @inject IJSRuntime jsRuntime
+@inject IHotelRoomService hotelRoomService
 
 <h3>HotelRooms</h3>
-<h1>@HomeModel.EndDate</h1>
+<div>@Rooms.FirstOrDefault().Name</div>
+
 
 @code {
     private HomeViewModel HomeModel { get; set; } = new HomeViewModel();
@@ -30,7 +33,10 @@
         }
     }
 
+    
     private async Task LoadRooms()
-    { }
+    {
+        Rooms = await hotelRoomService.GetHotelRooms(HomeModel.StartDate.ToString("MM.dd.yyyy"), HomeModel.EndDate.ToString("MM.dd.yyyy"));
+    }
 }
 
